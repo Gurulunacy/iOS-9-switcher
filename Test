@@ -1,0 +1,30 @@
+- (Void) updateView: (UIView *) view withProgress: (CGFloat) progress scrollDirection: (ScrollDirection) direction
+{
+    // Adjust z-index of each views
+    NSMutableArray * views = [[self.scrollView allViews] mutableCopy];
+    [Views sortUsingComparator: ^ NSComparisonResult (UIView * view1, UIView * view2) {
+        return  view1.tag> view2.tag;
+    }];
+    for  (UIView * View  in  Views) {
+        [View.superview bringSubviewToFront: view];
+    }
+    // Alpha
+    if  (Progress> = 0) {
+        view.alpha = 1;
+    }  else  {
+        view.alpha = 1 - fabs (progress) * 0.2;
+    }
+    CGAffineTransform transform = CGAffineTransformIdentity;    
+    // Scale
+    CGFloat scale = 1 + (progress) * 0.03;
+    transform = CGAffineTransformScale (transform, scale, scale);
+    // Translation
+    CGFloat translation = 0;
+    if  (Progress> 0) {
+         translation = fabs (progress) * SCREEN_WIDTH / 2.2;
+    }  else  {
+         translation = fabs (progress) * SCREEN_WIDTH / 15;
+    }
+    transform = CGAffineTransformTranslate (transform, translation, 0);
+    view.transform = transform;
+}
